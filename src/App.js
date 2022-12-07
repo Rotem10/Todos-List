@@ -16,18 +16,24 @@ function App() {
 
   useEffect(() => {
     const uncompleted = todos.filter((todo) => !todo.completed);
-    setNoneCompletedItemsCount(uncompleted);
+    setNoneCompletedItemsCount(uncompleted.length);
   }, [todos]);
 
   const appTitle = 'Todos';
 
   const addTodo = (title) => {
-    const newTodos = todos.concat([{ id: Date.now, title, completed: false }]);
+    const newTodos = todos.concat([
+      { id: Date.now(), title, completed: false },
+    ]);
     setTodos(newTodos);
   };
 
   const removeTodo = (idToRemove) => {
-    const newTodos = todos.filter((todo) => todo.id !== idToRemove);
+    const newTodos = todos.filter((todo) => {
+      if (todo.id !== idToRemove) {
+        return todo;
+      }
+    });
     setTodos(newTodos);
   };
 
@@ -39,11 +45,12 @@ function App() {
   };
 
   const toggleAllItems = (checkedValue) => {
-    const newTodos = todos.map((todo) => ({
-      ...todo,
-      completed: checkedValue,
-    }));
+    const newTodos = todos.map((todo) => {
+      todo.completed = checkedValue;
+      return todo;
+    });
     setTodos(newTodos);
+    console.log(todos);
   };
 
   return (

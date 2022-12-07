@@ -1,7 +1,7 @@
 export function TodosList({ items, onRemoveItem, onMarkAsCompleted }) {
   function handleRemoveItem(event) {
-    onRemoveItem(event.target.parentElement.parentElement.id);
-    console.log(event.target.parentElement.parentElement.id);
+    const idToRemove = parseInt(event.target.parentElement.parentElement.id);
+    onRemoveItem(idToRemove);
   }
 
   function handleMarkAsCompleted(event) {
@@ -10,7 +10,7 @@ export function TodosList({ items, onRemoveItem, onMarkAsCompleted }) {
   return (
     <ul className='todo-list'>
       {items.map((item) => (
-        <li key={item.id} id={item.id}>
+        <li key={item.id.toString()} id={item.id.toString()}>
           <div className='view'>
             <input
               className='toggle'
