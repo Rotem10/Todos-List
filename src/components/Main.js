@@ -3,7 +3,7 @@ import { TodosList } from './TodosList';
 export function Main({
   items,
   onRemoveItem,
-  onMarkAsCompleted,
+  onToggleItemCompleted,
   onToggleAllItems,
 }) {
   function handleToggleAll(event) {
@@ -20,7 +20,7 @@ export function Main({
       <TodosList
         items={items}
         onRemoveItem={onRemoveItem}
-        onMarkAsCompleted={onMarkAsCompleted}
+        onToggleItemCompleted={onToggleItemCompleted}
       />
     </section>
   );

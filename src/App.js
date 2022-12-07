@@ -37,7 +37,14 @@ function App() {
     setTodos(newTodos);
   };
 
-  const markAsCompleted = (idToMark) => {};
+  // const markAsCompleted = () => {};
+
+  const toggleItemCompleted = (idToMark, checkedValue) => {
+    const indexOfTodoToMark = todos.map((todo) => todo.id).indexOf(idToMark);
+    const newTodos = [...todos];
+    newTodos[indexOfTodoToMark].completed = checkedValue;
+    setTodos(newTodos);
+  };
 
   const clearAllCompletedItems = () => {
     const newTodos = todos.filter((todo) => !todo.completed);
@@ -50,7 +57,6 @@ function App() {
       return todo;
     });
     setTodos(newTodos);
-    console.log(todos);
   };
 
   return (
@@ -63,7 +69,7 @@ function App() {
       <Main
         items={todos}
         onRemoveItem={removeTodo}
-        onMarkAsCompleted={markAsCompleted}
+        onToggleItemCompleted={toggleItemCompleted}
         onToggleAllItems={toggleAllItems}
       />
       <Footer
