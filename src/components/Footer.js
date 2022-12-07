@@ -1,10 +1,10 @@
-export function Footer({ itemsLeft, onClearCompleted }) {
+export function Footer({ itemsLeftCount, onClearCompleted }) {
   return (
     <footer className='footer'>
       <span className='todo-count'>
-        <strong>{itemsLeft}</strong> items left
+        <strong>{itemsLeftCount}</strong> items left
       </span>
-      <button className='clear-completed' onClick={() => onClearCompleted()}>
+      <button className='clear-completed' onClick={onClearCompleted}>
         Clear completed
       </button>
     </footer>

@@ -1,16 +1,13 @@
 import { TodosList } from './TodosList';
 
 export function Main({
-  todos,
+  items,
   onRemoveItem,
-  onToggleCompleted,
-  toggleAll: toggleCompletedAll,
+  onMarkAsCompleted,
+  onToggleAllItems,
 }) {
-  let completedAll = false;
-
-  function handleToggleAll() {
-    completedAll = !completedAll;
-    toggleCompletedAll(completedAll);
+  function handleToggleAll(event) {
+    onToggleAllItems(event.target.checked);
   }
 
   return (
@@ -21,9 +18,9 @@ export function Main({
         onChange={handleToggleAll}
       />
       <TodosList
-        todos={todos}
+        items={items}
         onRemoveItem={onRemoveItem}
-        onToggleCompleted={onToggleCompleted}
+        onMarkAsCompleted={onMarkAsCompleted}
       />
     </section>
   );

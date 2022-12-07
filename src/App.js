@@ -2,58 +2,48 @@ import './App.css';
 import { Header } from './components/Header';
 import { Main } from './components/Main';
 import { Footer } from './components/Footer';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [todos, setTodos] = useState([]);
+  const [noneCompletedItemsCount, setNoneCompletedItemsCount] = useState(0);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then((response) => response.json())
+      .then(setTodos);
+  }, []);
+
+  useEffect(() => {
+    const uncompleted = todos.filter((todo) => !todo.completed);
+    setNoneCompletedItemsCount(uncompleted);
+  }, [todos]);
+
   const appTitle = 'Todos';
-  let key = 2;
-  let todos = [
-    { key: '0', title: 'Learn React', completed: false },
-    { key: '1', title: 'Listen to Nir', completed: false },
-    { key: '2', title: 'Learn JS', completed: true },
-  ];
 
   const addTodo = (title) => {
-    todos.push({ key: (key + 1).toString(), title, completed: false });
-    key++;
-    console.log(todos);
+    const newTodos = todos.concat([{ id: Date.now, title, completed: false }]);
+    setTodos(newTodos);
   };
 
-  const removeTodo = (key) => {
-    let newTodos = [];
-    todos.forEach((todo) => {
-      if (todo.key !== key) {
-        newTodos.push(todo);
-      }
-    });
-    todos = newTodos;
-    console.log(todos);
+  const removeTodo = (idToRemove) => {
+    const newTodos = todos.filter((todo) => todo.id !== idToRemove);
+    setTodos(newTodos);
   };
 
-  const updateItemsLeft = () => {
-    let itemsLeft = 0;
-    todos.forEach((todo) => {
-      if (!todo.completed) {
-        itemsLeft++;
-      }
-    });
-    return itemsLeft;
+  const markAsCompleted = (idToMark) => {};
+
+  const clearAllCompletedItems = () => {
+    const newTodos = todos.filter((todo) => !todo.completed);
+    setTodos(newTodos);
   };
 
-  const toggleCompleted = (key) => {
-    let todoToUpdate = todos.find((todo) => todo.key === key);
-    todoToUpdate.completed = !todoToUpdate.completed;
-    console.log(todos);
-  };
-
-  const clearCompleted = () => {
-    let todosToClear = todos.filter((todo) => todo.completed);
-    todosToClear.forEach((todo) => removeTodo(todo.key));
-    console.log(todos);
-  };
-
-  const toggleCompletedAll = (isCompleted) => {
-    todos.forEach((todo) => (todo.completed = isCompleted));
-    console.log(todos);
+  const toggleAllItems = (checkedValue) => {
+    const newTodos = todos.map((todo) => ({
+      ...todo,
+      completed: checkedValue,
+    }));
+    setTodos(newTodos);
   };
 
   return (
@@ -64,12 +54,15 @@ function App() {
         onAddItem={addTodo}
       />
       <Main
-        todos={todos}
+        items={todos}
         onRemoveItem={removeTodo}
-        onToggleCompleted={toggleCompleted}
-        toggleAll={toggleCompletedAll}
+        onMarkAsCompleted={markAsCompleted}
+        onToggleAllItems={toggleAllItems}
       />
-      <Footer itemsLeft={updateItemsLeft()} onClearCompleted={clearCompleted} />
+      <Footer
+        itemLeftCount={noneCompletedItemsCount}
+        onClearCompleted={clearAllCompletedItems}
+      />
     </section>
   );
 }
