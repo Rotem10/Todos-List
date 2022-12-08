@@ -1,59 +1,70 @@
 import './App.css';
+import { useEffect, useState } from 'react';
 import { Header } from './components/Header';
-import { Main } from './components/Main';
+import { ToggleAll } from './components/ToggleAll';
 import { Footer } from './components/Footer';
+import { TodosList } from './components/TodosList';
 
 function App() {
+  const [todos, setTodos] = useState([]);
+  const [noneCompletedItemsCount, setNoneCompletedItemsCount] = useState(0);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then((response) => response.json())
+      .then(setTodos);
+  }, []);
+
+  useEffect(() => {
+    const uncompleted = todos.filter((todo) => !todo.completed);
+    setNoneCompletedItemsCount(uncompleted.length);
+  }, [todos]);
+
   const appTitle = 'Todos';
-  let key = 2;
-  let todos = [
-    { key: '0', title: 'Learn React', completed: false },
-    { key: '1', title: 'Listen to Nir', completed: false },
-    { key: '2', title: 'Learn JS', completed: true },
-  ];
 
   const addTodo = (title) => {
-    todos.push({ key: (key + 1).toString(), title, completed: false });
-    key++;
-    console.log(todos);
+    const newTodos = todos.concat([
+      { id: Date.now(), title, completed: false },
+    ]);
+    setTodos(newTodos);
   };
 
-  const removeTodo = (key) => {
-    let newTodos = [];
-    todos.forEach((todo) => {
-      if (todo.key !== key) {
-        newTodos.push(todo);
+  const removeTodo = (idToRemove) => {
+    const newTodos = todos.filter((todo) => {
+      if (todo.id !== idToRemove) {
+        return todo;
       }
     });
-    todos = newTodos;
-    console.log(todos);
+    setTodos(newTodos);
   };
 
-  const updateItemsLeft = () => {
-    let itemsLeft = 0;
-    todos.forEach((todo) => {
-      if (!todo.completed) {
-        itemsLeft++;
-      }
+  // const markAsCompleted = () => {};
+
+  const toggleItemCompleted = (idToMark, checkedValue) => {
+    const indexOfTodoToMark = todos.map((todo) => todo.id).indexOf(idToMark);
+    const newTodos = [...todos];
+    newTodos[indexOfTodoToMark].completed = checkedValue;
+    setTodos(newTodos);
+  };
+
+  const clearAllCompletedItems = () => {
+    const newTodos = todos.filter((todo) => !todo.completed);
+    setTodos(newTodos);
+  };
+
+  const toggleAllItems = (checkedValue) => {
+    const newTodos = todos.map((todo) => {
+      todo.completed = checkedValue;
+      return todo;
     });
-    return itemsLeft;
+    setTodos(newTodos);
   };
 
-  const toggleCompleted = (key) => {
-    let todoToUpdate = todos.find((todo) => todo.key === key);
-    todoToUpdate.completed = !todoToUpdate.completed;
-    console.log(todos);
-  };
-
-  const clearCompleted = () => {
-    let todosToClear = todos.filter((todo) => todo.completed);
-    todosToClear.forEach((todo) => removeTodo(todo.key));
-    console.log(todos);
-  };
-
-  const toggleCompletedAll = (isCompleted) => {
-    todos.forEach((todo) => (todo.completed = isCompleted));
-    console.log(todos);
+  const editTodoTitle = (idToEdit, newTitle) => {
+    const indexOfTodoToEdit = todos.map((todo) => todo.id).indexOf(idToEdit);
+    const newTodos = [...todos];
+    newTodos[indexOfTodoToEdit].title = newTitle;
+    setTodos(newTodos);
   };
 
   return (
@@ -63,13 +74,18 @@ function App() {
         text='What needs to be done?'
         onAddItem={addTodo}
       />
-      <Main
-        todos={todos}
-        onRemoveItem={removeTodo}
-        onToggleCompleted={toggleCompleted}
-        toggleAll={toggleCompletedAll}
+      <ToggleAll onToggleAllItems={toggleAllItems}>
+        <TodosList
+          items={todos}
+          onRemoveItem={removeTodo}
+          onToggleItemCompleted={toggleItemCompleted}
+          onEditTodoTitle={editTodoTitle}
+        />
+      </ToggleAll>
+      <Footer
+        itemLeftCount={noneCompletedItemsCount}
+        onClearCompleted={clearAllCompletedItems}
       />
-      <Footer itemsLeft={updateItemsLeft()} onClearCompleted={clearCompleted} />
     </section>
   );
 }
