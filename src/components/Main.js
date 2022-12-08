@@ -1,11 +1,4 @@
-import { TodosList } from './TodosList';
-
-export function Main({
-  items,
-  onRemoveItem,
-  onToggleItemCompleted,
-  onToggleAllItems,
-}) {
+export function Main({ onToggleAllItems, children }) {
   function handleToggleAll(event) {
     onToggleAllItems(event.target.checked);
   }
@@ -17,11 +10,7 @@ export function Main({
         type='checkbox'
         onChange={handleToggleAll}
       />
-      <TodosList
-        items={items}
-        onRemoveItem={onRemoveItem}
-        onToggleItemCompleted={onToggleItemCompleted}
-      />
+      {children}
     </section>
   );
 }

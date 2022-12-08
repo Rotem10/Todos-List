@@ -2,6 +2,7 @@ import './App.css';
 import { Header } from './components/Header';
 import { Main } from './components/Main';
 import { Footer } from './components/Footer';
+import { TodosList } from './components/TodosList';
 import { useEffect, useState } from 'react';
 
 function App() {
@@ -66,12 +67,13 @@ function App() {
         text='What needs to be done?'
         onAddItem={addTodo}
       />
-      <Main
-        items={todos}
-        onRemoveItem={removeTodo}
-        onToggleItemCompleted={toggleItemCompleted}
-        onToggleAllItems={toggleAllItems}
-      />
+      <Main onToggleAllItems={toggleAllItems}>
+        <TodosList
+          items={todos}
+          onRemoveItem={removeTodo}
+          onToggleItemCompleted={toggleItemCompleted}
+        />
+      </Main>
       <Footer
         itemLeftCount={noneCompletedItemsCount}
         onClearCompleted={clearAllCompletedItems}
