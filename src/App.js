@@ -60,6 +60,13 @@ function App() {
     setTodos(newTodos);
   };
 
+  const editTodoTitle = (idToEdit, newTitle) => {
+    const indexOfTodoToEdit = todos.map((todo) => todo.id).indexOf(idToEdit);
+    const newTodos = [...todos];
+    newTodos[indexOfTodoToEdit].title = newTitle;
+    setTodos(newTodos);
+  };
+
   return (
     <section className='todoapp'>
       <Header
@@ -72,6 +79,7 @@ function App() {
           items={todos}
           onRemoveItem={removeTodo}
           onToggleItemCompleted={toggleItemCompleted}
+          onEditTodoTitle={editTodoTitle}
         />
       </ToggleAll>
       <Footer
