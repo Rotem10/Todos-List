@@ -1,9 +1,9 @@
 import './App.css';
+import { useEffect, useState } from 'react';
 import { Header } from './components/Header';
-import { Main } from './components/Main';
+import { ToggleAll } from './components/ToggleAll';
 import { Footer } from './components/Footer';
 import { TodosList } from './components/TodosList';
-import { useEffect, useState } from 'react';
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -67,13 +67,13 @@ function App() {
         text='What needs to be done?'
         onAddItem={addTodo}
       />
-      <Main onToggleAllItems={toggleAllItems}>
+      <ToggleAll onToggleAllItems={toggleAllItems}>
         <TodosList
           items={todos}
           onRemoveItem={removeTodo}
           onToggleItemCompleted={toggleItemCompleted}
         />
-      </Main>
+      </ToggleAll>
       <Footer
         itemLeftCount={noneCompletedItemsCount}
         onClearCompleted={clearAllCompletedItems}

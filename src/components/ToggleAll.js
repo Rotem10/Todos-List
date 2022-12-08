@@ -1,4 +1,4 @@
-export function Main({ onToggleAllItems, children }) {
+export function ToggleAll({ onToggleAllItems, children }) {
   function handleToggleAll(event) {
     onToggleAllItems(event.target.checked);
   }
