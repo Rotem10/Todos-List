@@ -1,6 +1,11 @@
-export function ToggleAll({ onToggleAllItems, children }) {
+import { useContext } from 'react';
+import { listContext } from '../providers/list-context';
+
+export function ToggleAll({ children }) {
+  const { toggleAllItems } = useContext(listContext);
+
   function handleToggleAll(event) {
-    onToggleAllItems(event.target.checked);
+    toggleAllItems(event.target.checked);
   }
 
   return (

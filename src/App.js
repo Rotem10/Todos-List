@@ -1,93 +1,77 @@
+import { useRef, useState } from 'react';
 import './App.css';
-import { useEffect, useState } from 'react';
-import { Header } from './components/Header';
-import { ToggleAll } from './components/ToggleAll';
-import { Footer } from './components/Footer';
-import { TodosList } from './components/TodosList';
+import { TodosApp } from './components/TodosApp';
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [noneCompletedItemsCount, setNoneCompletedItemsCount] = useState(0);
+  const [listTitles, setListTitles] = useState([
+    'todo at work',
+    'todo at home',
+  ]);
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos')
-      .then((response) => response.json())
-      .then(setTodos);
-  }, []);
+  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const uncompleted = todos.filter((todo) => !todo.completed);
-    setNoneCompletedItemsCount(uncompleted.length);
-  }, [todos]);
+  const inputListTitleRef = useRef(null);
+  const inputUserNameRef = useRef(null);
+  const inputPasswordRef = useRef(null);
 
-  const appTitle = 'Todos';
+  function createNewList(title) {
+    const newListTitles = listTitles.concat([title]);
+    setListTitles(newListTitles);
+  }
 
-  const addTodo = (title) => {
-    const newTodos = todos.concat([
-      { id: Date.now(), title, completed: false },
-    ]);
-    setTodos(newTodos);
-  };
+  function handleCreateList() {
+    createNewList(inputListTitleRef.current.value);
+    inputListTitleRef.current.value = '';
+  }
 
-  const removeTodo = (idToRemove) => {
-    const newTodos = todos.filter((todo) => {
-      if (todo.id !== idToRemove) {
-        return todo;
-      }
+  function handleLogin() {
+    setUser({
+      userName: inputUserNameRef.current.value,
+      password: inputPasswordRef.current.value,
     });
-    setTodos(newTodos);
-  };
-
-  // const markAsCompleted = () => {};
-
-  const toggleItemCompleted = (idToMark, checkedValue) => {
-    const indexOfTodoToMark = todos.map((todo) => todo.id).indexOf(idToMark);
-    const newTodos = [...todos];
-    newTodos[indexOfTodoToMark].completed = checkedValue;
-    setTodos(newTodos);
-  };
-
-  const clearAllCompletedItems = () => {
-    const newTodos = todos.filter((todo) => !todo.completed);
-    setTodos(newTodos);
-  };
-
-  const toggleAllItems = (checkedValue) => {
-    const newTodos = todos.map((todo) => {
-      todo.completed = checkedValue;
-      return todo;
-    });
-    setTodos(newTodos);
-  };
-
-  const editTodoTitle = (idToEdit, newTitle) => {
-    const indexOfTodoToEdit = todos.map((todo) => todo.id).indexOf(idToEdit);
-    const newTodos = [...todos];
-    newTodos[indexOfTodoToEdit].title = newTitle;
-    setTodos(newTodos);
-  };
-
-  return (
-    <section className='todoapp'>
-      <Header
-        title={appTitle}
-        text='What needs to be done?'
-        onAddItem={addTodo}
-      />
-      <ToggleAll onToggleAllItems={toggleAllItems}>
-        <TodosList
-          items={todos}
-          onRemoveItem={removeTodo}
-          onToggleItemCompleted={toggleItemCompleted}
-          onEditTodoTitle={editTodoTitle}
+    inputUserNameRef.current.value = '';
+    inputPasswordRef.current.value = '';
+  }
+  if (user) {
+    return (
+      <>
+        <div className='new-list-input'>
+          <input
+            type='text'
+            placeholder='Enter list title'
+            ref={inputListTitleRef}
+          />
+        </div>
+        <button className='add-list' onClick={handleCreateList}>
+          Add list
+        </button>
+        <>
+          {listTitles.map((listTitle) => (
+            <TodosApp appTitle={listTitle} />
+          ))}
+        </>
+      </>
+    );
+  } else {
+    return (
+      <div className='login'>
+        <input
+          type='text'
+          placeholder='User Name'
+          ref={inputUserNameRef}
+          className='user-name'
+          autoFocus
         />
-      </ToggleAll>
-      <Footer
-        itemLeftCount={noneCompletedItemsCount}
-        onClearCompleted={clearAllCompletedItems}
-      />
-    </section>
-  );
+        <input
+          type='text'
+          placeholder='Password'
+          ref={inputPasswordRef}
+          className='password'
+        />
+        <button onClick={handleLogin}>Login</button>
+      </div>
+    );
+  }
 }
 
 export default App;

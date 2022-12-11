@@ -71,10 +71,10 @@ input[type='checkbox'] {
 
 .todoapp h1 {
   position: absolute;
-  top: -155px;
+  top: -120px;
   width: 100%;
-  font-size: 100px;
-  font-weight: 100;
+  font-size: 80px;
+  font-weight: 50;
   text-align: center;
   color: rgba(175, 47, 47, 0.15);
   -webkit-text-rendering: optimizeLegibility;
@@ -339,6 +339,26 @@ html .clear-completed:active {
 
 .info a:hover {
   text-decoration: underline;
+}
+
+.add-list {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #4d4d4d;
+}
+
+.new-list-input {
+  margin-top: 20px;
+}
+
+.login {
+  margin: 20px;
+}
+
+.user-name,
+.password {
+  padding: 5px;
+  margin: 10px;
 }
 
 /*

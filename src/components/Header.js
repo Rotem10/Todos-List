@@ -1,16 +1,21 @@
-export function Header({ title, text, onAddItem }) {
+import { useContext } from 'react';
+import { listContext } from '../providers/list-context';
+
+export function Header({ appTitle }) {
+  const { addTodo } = useContext(listContext);
+
   function handleTaskInput(event) {
     if (event.key === 'Enter') {
-      onAddItem(event.target.value);
+      addTodo(event.target.value);
       event.target.value = '';
     }
   }
   return (
     <header className='header'>
-      <h1>{title}</h1>
+      <h1>{appTitle}</h1>
       <input
         className='new-todo'
-        placeholder={text}
+        placeholder='What needs to be done?'
         onKeyUp={handleTaskInput}
         autoFocus
       />

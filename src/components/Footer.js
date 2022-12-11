@@ -1,10 +1,16 @@
-export function Footer({ itemLeftCount, onClearCompleted }) {
+import { useContext } from 'react';
+import { listContext } from '../providers/list-context';
+
+export function Footer() {
+  const { noneCompletedItemsCount, clearAllCompletedItems } =
+    useContext(listContext);
+
   return (
     <footer className='footer'>
       <span className='todo-count'>
-        <strong>{itemLeftCount}</strong> items left
+        <strong>{noneCompletedItemsCount}</strong> items left
       </span>
-      <button className='clear-completed' onClick={onClearCompleted}>
+      <button className='clear-completed' onClick={clearAllCompletedItems}>
         Clear completed
       </button>
     </footer>
