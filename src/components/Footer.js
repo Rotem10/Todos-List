@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { listContext } from '../providers/list-context';
+import { listContext } from '../providers/listContext';
 
 export function Footer() {
   const { noneCompletedItemsCount, clearAllCompletedItems } =

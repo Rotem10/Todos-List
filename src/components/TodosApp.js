@@ -3,7 +3,7 @@ import { ToggleAll } from './ToggleAll';
 import { Footer } from './Footer';
 import { TodosList } from './TodosList';
 import { useTodos } from '../hooks/useTodos';
-import { listContext } from '../providers/list-context';
+import { listContext } from '../providers/listContext';
 
 export function TodosApp({ appTitle }) {
   const todosMethods = useTodos();

@@ -71,7 +71,7 @@ input[type='checkbox'] {
 
 .todoapp h1 {
   position: absolute;
-  top: -120px;
+  top: -130px;
   width: 100%;
   font-size: 80px;
   font-weight: 50;
@@ -341,20 +341,20 @@ html .clear-completed:active {
   text-decoration: underline;
 }
 
-.add-list {
+/* ------------- */
+
+.add-list,
+.login-btn {
   margin: 5px;
   padding: 5px;
   border: 1px solid #4d4d4d;
-}
-
-.new-list-input {
-  margin-top: 20px;
 }
 
 .login {
   margin: 20px;
 }
 
+.new-list-input,
 .user-name,
 .password {
   padding: 5px;
