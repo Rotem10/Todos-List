@@ -1,11 +1,13 @@
 import { useRef, useContext } from 'react';
 import { authContext } from '../providers/authContext';
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
   const inputUserNameRef = useRef(null);
   const inputPasswordRef = useRef(null);
 
-  const setUser = useContext(authContext);
+  const { setUser } = useContext(authContext);
+  const nevigate = useNavigate();
 
   function handleLogin() {
     setUser({
@@ -14,25 +16,36 @@ export function Login() {
     });
     inputUserNameRef.current.value = '';
     inputPasswordRef.current.value = '';
+    nevigate('/my-list');
   }
   return (
-    <div className='login'>
-      <input
-        type='text'
-        placeholder='User Name'
-        ref={inputUserNameRef}
-        className='user-name'
-        autoFocus
-      />
-      <input
-        type='text'
-        placeholder='Password'
-        ref={inputPasswordRef}
-        className='password'
-      />
-      <button className='login-btn' onClick={handleLogin}>
-        Login
+    <form>
+      <div className='mb-3'>
+        <label htmlFor='exampleInputEmail1' className='form-label'>
+          Email address
+        </label>
+        <input
+          type='email'
+          className='form-control'
+          id='exampleInputEmail1'
+          aria-describedby='emailHelp'
+          ref={inputUserNameRef}
+        />
+      </div>
+      <div className='mb-3'>
+        <label htmlFor='exampleInputPassword1' className='form-label'>
+          Password
+        </label>
+        <input
+          type='password'
+          className='form-control'
+          id='exampleInputPassword1'
+          ref={inputPasswordRef}
+        />
+      </div>
+      <button onClick={handleLogin} className='btn btn-primary'>
+        Submit
       </button>
-    </div>
+    </form>
   );
 }

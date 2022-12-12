@@ -10,7 +10,7 @@ export function Footer() {
       <span className='todo-count'>
         <strong>{noneCompletedItemsCount}</strong> items left
       </span>
-      <button className='clear-completed' onClick={clearAllCompletedItems}>
+      <button className='clear-completed ' onClick={clearAllCompletedItems}>
         Clear completed
       </button>
     </footer>

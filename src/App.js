@@ -1,48 +1,19 @@
 import './App.css';
-import { useRef } from 'react';
-import { TodosApp } from './components/TodosApp';
-import { useApp } from './hooks/useApp';
-import { Login } from './components/Login';
-import { authContext } from './providers/authContext';
+import { NavBar } from './components/NavBar';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function App() {
-  const { listTitles, user, setUser, createNewList } = useApp();
+  const nevigate = useNavigate();
 
-  const inputListTitleRef = useRef(null);
+  useEffect(() => nevigate('/home'), []);
 
-  function handleCreateList() {
-    createNewList(inputListTitleRef.current.value);
-    inputListTitleRef.current.value = '';
-  }
-
-  if (user) {
-    return (
-      <>
-        <div>
-          <input
-            type='text'
-            placeholder='Enter list title'
-            ref={inputListTitleRef}
-            className='new-list-input'
-          />
-        </div>
-        <button className='add-list' onClick={handleCreateList}>
-          Add list
-        </button>
-        <>
-          {listTitles.map((listTitle) => (
-            <TodosApp appTitle={listTitle} />
-          ))}
-        </>
-      </>
-    );
-  } else {
-    return (
-      <authContext.Provider value={setUser}>
-        <Login />
-      </authContext.Provider>
-    );
-  }
+  return (
+    <>
+      <NavBar />
+      <Outlet />
+    </>
+  );
 }
 
 export default App;

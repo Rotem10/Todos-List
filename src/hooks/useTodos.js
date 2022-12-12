@@ -7,7 +7,7 @@ export function useTodos() {
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos')
       .then((response) => response.json())
-      .then(setTodos);
+      .then((todos) => setTodos(todos.slice(0, 10)));
   }, []);
 
   useEffect(() => {

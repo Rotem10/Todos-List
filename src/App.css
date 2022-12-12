@@ -71,7 +71,7 @@ input[type='checkbox'] {
 
 .todoapp h1 {
   position: absolute;
-  top: -130px;
+  top: -110px;
   width: 100%;
   font-size: 80px;
   font-weight: 50;
@@ -248,7 +248,7 @@ label[for='toggle-all'] {
 .footer {
   color: #777;
   padding: 10px 15px;
-  height: 20px;
+  height: 50px;
   text-align: center;
   border-top: 1px solid #e6e6e6;
 }
@@ -339,26 +339,6 @@ html .clear-completed:active {
 
 .info a:hover {
   text-decoration: underline;
-}
-
-/* ------------- */
-
-.add-list,
-.login-btn {
-  margin: 5px;
-  padding: 5px;
-  border: 1px solid #4d4d4d;
-}
-
-.login {
-  margin: 20px;
-}
-
-.new-list-input,
-.user-name,
-.password {
-  padding: 5px;
-  margin: 10px;
 }
 
 /*
